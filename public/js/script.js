@@ -15,8 +15,7 @@ function joinChannel(event, socket) {
 	event.preventDefault();
 	let channel = document.getElementById('newchannel').value;
 
-	//console.log('isWelcomeDisplayed' + isWelcomeDisplayed);
-	if (channel && isWelcomeDisplayed) {
+	if (channel) {
 		socket.emit('joinChannel', { channel });
 	}
 
@@ -31,11 +30,8 @@ function leaveChannel(event, socket) {
 	}
 }
 
-var isWelcomeDisplayed = false;
 function onWelcomeMessageReceived(welcomeMessage) {
 	let msg = `System : ${welcomeMessage}`;
-
-	isWelcomeDisplayed = true;
 	generateChatMsgTemplate(msg);
 }
 
