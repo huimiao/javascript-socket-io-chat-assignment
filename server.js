@@ -27,7 +27,7 @@ function bootstrapSocketServer(io) {
 			let username = newMessage.username;
 
 			if(message && channel) {
-				socket.broadcast.emit('newMessage', { username, channel, message });
+				io.emit('newMessage', { username, channel, message });
 			}
 		});
 
