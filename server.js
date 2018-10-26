@@ -10,14 +10,11 @@ function bootstrapSocketServer(io) {
 				socket.emit('welcomeMessage', `Welcome ${message.username} !!`);
 
 				channels.forEach(channel => {
-
 					if(channel) {
 						socket.join(channel);
-						socket.emit('addedToChannel', {channel}); ///?????
+						socket.emit('addedToChannel', {channel});
 					}
-					
 				});
-
 			} 
 		});
 
@@ -27,25 +24,23 @@ function bootstrapSocketServer(io) {
 			let username = newMessage.username;
 
 			if(message && channel) {
-				socket.broadcast.emit('newMessage', { username, channel, message });
+				socket.broadcast.to(channel).emit('newMessage', { username, channel, message });
 			}
 		});
 
 		socket.on('joinChannel', (newChannel) => {
 			let channel = newChannel.channel;
-			socket.join(channel);//socket join channel -- ??
-
 			if(channel) {
+				socket.join(channel);
 				socket.emit('addedToChannel', {channel});
 			}
 		});
 
 		socket.on('leaveChannel', (newChannel) => {
 			let channel = newChannel.channel;
-			socket.leave(channel);//socket join channel -- ??
-
 			if(channel) {
 				socket.emit('removedFromChannel', {channel});
+				socket.leave(channel);
 			}
 		});
 
